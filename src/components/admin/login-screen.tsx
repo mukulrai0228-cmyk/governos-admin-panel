@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useMotionValue, useTransform } from "motion/react";
 import { ArrowRight, Eye, EyeOff, LockKeyhole, Mail } from "lucide-react";
-import { useEffect, useState, type FormEvent, type MouseEvent } from "react";
+import { useLayoutEffect, useState, type FormEvent, type MouseEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,9 +18,9 @@ function initializeLoginTheme() {
   const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS.find((item) => item.id === "sapphire") ?? BRANDS[0];
   applyBrand(brand);
 
-  const isDark = localStorage.getItem("theme") !== "light";
-  document.documentElement.classList.toggle("dark", isDark);
-  document.documentElement.dataset.theme = isDark ? "dark" : "light";
+  // Login always uses the dark glass treatment, independently of the workspace preference.
+  document.documentElement.classList.add("dark");
+  document.documentElement.dataset.theme = "dark";
 }
 
 export function LoginScreen() {
@@ -36,7 +36,7 @@ export function LoginScreen() {
   const rotateX = useTransform(mouseY, [-260, 260], [7, -7]);
   const rotateY = useTransform(mouseX, [-360, 360], [-7, 7]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     initializeLoginTheme();
   }, []);
 

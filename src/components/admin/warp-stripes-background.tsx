@@ -117,12 +117,18 @@ export function WarpStripesBackground() {
     let frame = 0;
     let start = performance.now();
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const width = Math.max(1, Math.floor(canvas.clientWidth * dpr));
       const height = Math.max(1, Math.floor(canvas.clientHeight * dpr));
       if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; gl.viewport(0, 0, width, height); }
     };
+    let lastFrame = 0;
     const render = (now: number) => {
+      if (now - lastFrame < 33) {
+        frame = requestAnimationFrame(render);
+        return;
+      }
+      lastFrame = now;
       resize();
       gl.uniform4f(resolution, canvas.width, canvas.height, (now - start) * -0.0002, 4.0);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
