@@ -1,0 +1,698 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --governos-wallpaper: url("/governos-mountain-bg.jpg");
+  --radius: 0.875rem;
+  --background: oklch(0.2 0.03 262 / 0.7);
+  --foreground: oklch(0.97 0.01 265);
+  --card: oklch(0.24 0.025 265 / 0.68);
+  --card-foreground: oklch(0.97 0.01 265);
+  --popover: oklch(0.19 0.028 265 / 0.94);
+  --popover-foreground: oklch(0.97 0.01 265);
+  --primary: oklch(0.74 0.14 38);
+  --primary-foreground: oklch(0.17 0.025 265);
+  --secondary: oklch(0.35 0.028 265 / 0.65);
+  --secondary-foreground: oklch(0.96 0.01 265);
+  --muted: oklch(0.38 0.024 265 / 0.48);
+  --muted-foreground: oklch(0.8 0.018 265);
+  --accent: oklch(0.47 0.04 265 / 0.62);
+  --accent-foreground: oklch(0.98 0.01 265);
+  --destructive: oklch(0.69 0.18 25);
+  --destructive-foreground: oklch(0.99 0.005 60);
+  --border: oklch(0.92 0.015 265 / 0.16);
+  --input: oklch(0.82 0.02 265 / 0.16);
+  --ring: oklch(0.76 0.13 38);
+  --chart-1: oklch(0.74 0.14 38);
+  --chart-2: oklch(0.72 0.1 210);
+  --chart-3: oklch(0.76 0.1 150);
+  --chart-4: oklch(0.7 0.12 300);
+  --chart-5: oklch(0.78 0.09 80);
+  --sidebar: oklch(0.15 0.028 265 / 0.72);
+  --sidebar-foreground: oklch(0.94 0.012 265);
+  --sidebar-primary: oklch(0.74 0.14 38);
+  --sidebar-primary-foreground: oklch(0.17 0.025 265);
+  --sidebar-accent: oklch(0.35 0.03 265 / 0.6);
+  --sidebar-accent-foreground: oklch(0.98 0.01 265);
+  --sidebar-border: oklch(0.92 0.015 265 / 0.12);
+  --sidebar-ring: oklch(0.76 0.13 38);
+
+  --shadow-elegant: 0 24px 80px oklch(0.06 0.03 265 / 0.42);
+  --shadow-soft: 0 12px 32px oklch(0.06 0.03 265 / 0.18);
+}
+
+.dark {
+  --background: oklch(0.15 0.03 265 / 0.58);
+  --foreground: oklch(0.97 0.01 265);
+  --card: oklch(0.22 0.028 265 / 0.56);
+  --card-foreground: oklch(0.97 0.01 265);
+  --popover: oklch(0.14 0.03 265 / 0.96);
+  --popover-foreground: oklch(0.97 0.01 265);
+  --secondary: oklch(0.31 0.03 265 / 0.72);
+  --muted: oklch(0.34 0.028 265 / 0.55);
+  --muted-foreground: oklch(0.78 0.018 265);
+  --accent: oklch(0.4 0.04 265 / 0.72);
+  --border: oklch(0.94 0.014 265 / 0.15);
+  --input: oklch(0.94 0.014 265 / 0.14);
+  --sidebar: oklch(0.12 0.028 265 / 0.66);
+  --sidebar-accent: oklch(0.34 0.035 265 / 0.68);
+  --sidebar-border: oklch(0.94 0.014 265 / 0.12);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    min-width: 320px;
+    background-color: oklch(0.12 0.03 265);
+    background-image: linear-gradient(90deg, oklch(0.08 0.03 265 / 0.22), oklch(0.08 0.03 265 / 0.5)), var(--governos-wallpaper);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    color: var(--color-foreground);
+  }
+}
+
+@layer components {
+  /* Animated icon components own their SVG dimensions; keep them aligned to the caller's box. */
+  .governos-animated-icon > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  [data-governos-shell] {
+    min-height: 100vh;
+    background: color-mix(in oklab, var(--background) 58%, transparent);
+  }
+
+  [data-governos-workspace] {
+    height: calc(100vh - 24px);
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+    border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+    border-radius: 28px;
+    background: color-mix(in oklab, var(--background) 62%, transparent);
+    box-shadow: 0 28px 80px color-mix(in oklab, var(--foreground) 16%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 24%, white);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+  }
+
+  [data-governos-shell] [data-governos-topbar] {
+    flex-shrink: 0;
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: color-mix(in oklab, var(--background) 48%, transparent);
+  }
+
+  [data-governos-shell] [data-governos-panel] {
+    border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+    background: color-mix(in oklab, var(--card) 64%, transparent);
+    box-shadow: var(--shadow-soft), inset 0 1px 0 color-mix(in oklab, var(--card) 26%, white);
+    backdrop-filter: blur(24px) saturate(135%);
+    -webkit-backdrop-filter: blur(24px) saturate(135%);
+  }
+
+  [data-governos-workspace] > main {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  /* Some organization views use direct bg-card surfaces instead of the shared Card component. */
+  [data-governos-shell] [class*="bg-card"] {
+    background: color-mix(in oklab, var(--card) 56%, transparent) !important;
+    border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+    box-shadow: 0 14px 38px color-mix(in oklab, var(--foreground) 12%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 28%, white);
+    backdrop-filter: blur(24px) saturate(145%);
+    -webkit-backdrop-filter: blur(24px) saturate(145%);
+  }
+
+  [data-governos-shell] [data-governos-card] {
+    background: color-mix(in oklab, var(--card) 58%, transparent) !important;
+    border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+    box-shadow: 0 18px 48px color-mix(in oklab, var(--foreground) 13%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 30%, white);
+  }
+
+  [data-governos-shell] [data-governos-card]:has(a):hover {
+    border-color: oklch(0.76 0.13 38 / 0.45);
+  }
+
+  [data-governos-shell] .governos-enter,
+  [data-governos-shell] .governos-stat-card {
+    animation: governos-rise 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--enter-delay, 0ms);
+  }
+
+  [data-governos-shell] .governos-stat-card {
+    transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+  }
+
+  [data-governos-shell] .governos-stat-card:hover {
+    transform: translateY(-5px);
+    border-color: oklch(0.76 0.13 38 / 0.42);
+    box-shadow: 0 24px 52px oklch(0.04 0.028 265 / 0.3), inset 0 1px 0 oklch(1 0 0 / 0.16);
+  }
+
+  [data-governos-shell] .governos-action-button {
+    animation: governos-action-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+  }
+
+  [data-governos-shell] .governos-action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px color-mix(in oklab, var(--primary) 28%, transparent);
+  }
+
+  [data-governos-shell] .governos-action-button:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  [data-governos-shell] .governos-control svg,
+  [data-governos-shell] .governos-tab-trigger svg {
+    transform-origin: center;
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), color 180ms ease;
+  }
+
+  [data-governos-shell] .governos-control:hover svg,
+  [data-governos-shell] .governos-control:focus-visible svg,
+  [data-governos-shell] .governos-tab-trigger:hover svg,
+  [data-governos-shell] .governos-tab-trigger:focus-visible svg {
+    animation: governos-icon-hover 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  [data-governos-shell] .governos-action-button .governos-animated-icon {
+    transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-governos-shell] .governos-action-button:hover .governos-animated-icon {
+    transform: translateY(-1px) rotate(-4deg);
+  }
+
+  [data-governos-shell] .governos-route {
+    animation: governos-page-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  [data-governos-shell] .governos-tab-trigger {
+    position: relative;
+    transition: color 180ms ease, background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+  }
+
+  [data-governos-shell] .governos-tab-trigger:hover {
+    transform: translateY(-1px);
+  }
+
+  [data-governos-shell] .governos-tab-trigger:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  [data-governos-shell] .governos-tab-trigger[data-state="active"] svg,
+  [data-governos-shell] .governos-tab-icon-active {
+    animation: governos-tab-icon-active 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  [data-governos-shell] .governos-tab-content {
+    animation: governos-tab-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  [data-governos-shell] .sidebar-nav-item {
+    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+  }
+
+  [data-governos-shell] .sidebar-nav-item:hover {
+    transform: translateX(3px);
+  }
+
+  [data-governos-shell] .sidebar-nav-icon {
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 180ms ease;
+  }
+
+  [data-governos-shell] .sidebar-nav-active .sidebar-nav-icon {
+    animation: governos-nav-icon-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  [data-governos-shell] .shadow-none {
+    box-shadow: var(--shadow-soft), inset 0 1px 0 oklch(1 0 0 / 0.1);
+  }
+
+  [data-governos-shell] input,
+  [data-governos-shell] [role="combobox"] {
+    background-color: oklch(0.15 0.025 265 / 0.38);
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.06);
+  }
+
+  [data-governos-shell] .recharts-cartesian-grid line {
+    stroke: oklch(0.9 0.02 265 / 0.14);
+  }
+
+  @keyframes governos-rise {
+    from { opacity: 0; transform: translateY(14px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes governos-action-in {
+    from { opacity: 0; transform: translateY(-6px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes governos-page-in {
+    from { opacity: 0; transform: translateY(9px); filter: blur(3px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes governos-tab-in {
+    from { opacity: 0; transform: translateY(7px) scale(0.995); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+@keyframes governos-nav-icon-in {
+    0% { transform: scale(0.65) rotate(-20deg); opacity: 0; }
+    65% { transform: scale(1.16) rotate(6deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-governos-shell] *,
+    [data-governos-shell] *::before,
+    [data-governos-shell] *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 1ms !important;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    [data-governos-workspace] {
+      height: 100vh;
+      border: 0;
+      border-radius: 0;
+    }
+  }
+}
+
+@keyframes governos-icon-hover {
+  0% { transform: translateY(0) rotate(0) scale(1); }
+  35% { transform: translateY(-1px) rotate(-8deg) scale(1.08); }
+  70% { transform: translateY(0) rotate(5deg) scale(1.03); }
+  100% { transform: translateY(0) rotate(0) scale(1); }
+}
+
+@keyframes governos-tab-icon-active {
+  0% { transform: translateY(2px) scale(0.78) rotate(-8deg); opacity: 0.55; }
+  65% { transform: translateY(-1px) scale(1.12) rotate(4deg); opacity: 1; }
+  100% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+}
+
+/* Portaled Radix surfaces sit outside the dashboard shell. */
+.governos-float {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: oklch(0.95 0.015 265 / 0.19) !important;
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.95), oklch(0.13 0.03 265 / 0.97)) !important;
+  box-shadow: 0 22px 60px oklch(0.04 0.028 265 / 0.46), inset 0 1px 0 oklch(1 0 0 / 0.13) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.governos-dialog {
+  position: fixed;
+  isolation: isolate;
+  border-color: oklch(0.95 0.015 265 / 0.2) !important;
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.72), oklch(0.12 0.03 265 / 0.78)) !important;
+  box-shadow: 0 28px 100px oklch(0.04 0.028 265 / 0.58), inset 0 1px 0 oklch(1 0 0 / 0.14) !important;
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+}
+
+.governos-float::before,
+.governos-dialog::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, oklch(0.42 0.04 265 / 0.12), oklch(0.12 0.03 265 / 0.08));
+  content: "";
+  pointer-events: none;
+  filter: blur(18px);
+  opacity: 0.9;
+  transform: scale(1.06);
+}
+
+.governos-float > *,
+.governos-dialog > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep the close affordance anchored to the dialog instead of the grid flow. */
+.governos-dialog > button[aria-label="Close"] {
+  position: absolute;
+}
+
+.governos-close-button {
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.governos-close-button:hover,
+.governos-close-button:focus-visible {
+  transform: rotate(90deg) scale(1.06);
+  box-shadow: 0 8px 22px oklch(0.04 0.028 265 / 0.24);
+}
+
+.governos-close-button svg {
+  transition: transform 180ms ease;
+}
+
+/* All portaled surfaces share the same quick glass open/close motion. */
+.governos-float[data-state="open"],
+.governos-dialog[data-state="open"] {
+  animation: governos-popup-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.governos-float[data-state="closed"],
+.governos-dialog[data-state="closed"] {
+  animation: governos-popup-out 160ms cubic-bezier(0.4, 0, 1, 1) both;
+  pointer-events: none;
+}
+
+[data-radix-dialog-overlay][data-state="open"],
+[data-radix-alert-dialog-overlay][data-state="open"] {
+  animation: governos-overlay-in 220ms ease-out both;
+}
+
+[data-radix-dialog-overlay][data-state="closed"],
+[data-radix-alert-dialog-overlay][data-state="closed"] {
+  animation: governos-overlay-out 160ms ease-in both;
+}
+
+/* Dark glass uses a quiet edge instead of the bright inset highlight used by light glass. */
+html.dark [data-governos-workspace] {
+  background: color-mix(in oklab, var(--background) 48%, transparent);
+  box-shadow: 0 28px 80px color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+html.dark [data-governos-shell] {
+  background: color-mix(in oklab, var(--background) 42%, transparent);
+}
+
+html.dark [data-governos-shell] [data-governos-topbar] {
+  background: color-mix(in oklab, var(--background) 34%, transparent);
+}
+
+html.dark [data-governos-shell] [data-governos-panel],
+html.dark [data-governos-shell] [class*="bg-card"],
+html.dark [data-governos-shell] [data-governos-card] {
+  background: color-mix(in oklab, var(--card) 48%, transparent) !important;
+  box-shadow: var(--shadow-soft);
+}
+
+html.dark .governos-float,
+html.dark .governos-dialog {
+  box-shadow: 0 22px 60px oklch(0.04 0.028 265 / 0.46) !important;
+}
+
+html.dark .governos-float {
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.96), oklch(0.13 0.03 265 / 0.98)) !important;
+}
+
+html.dark .governos-dialog::before {
+  background: linear-gradient(135deg, oklch(0.42 0.04 265 / 0.12), oklch(0.12 0.03 265 / 0.08));
+}
+
+/* Light mode keeps the same translucency and material depth, with a brighter glass stack. */
+html[data-theme="light"] body {
+  background-color: oklch(0.91 0.025 270);
+  background-image: linear-gradient(115deg, oklch(0.98 0.015 270 / 0.72), oklch(0.94 0.025 25 / 0.64)), var(--governos-wallpaper);
+  background-blend-mode: normal, soft-light;
+  --foreground: oklch(0.23 0.025 270);
+  --card-foreground: oklch(0.23 0.025 270);
+  --popover-foreground: oklch(0.23 0.025 270);
+  --muted-foreground: oklch(0.45 0.03 270);
+  --sidebar-foreground: oklch(0.25 0.025 270);
+}
+
+html[data-theme="light"] [data-governos-shell] {
+  background: linear-gradient(135deg, oklch(0.97 0.02 270 / 0.18), oklch(0.94 0.03 25 / 0.14));
+}
+
+html[data-theme="light"] [data-governos-workspace] {
+  border-color: oklch(1 0 0 / 0.34);
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.28), oklch(0.95 0.025 270 / 0.18));
+  box-shadow: 0 24px 64px oklch(0.35 0.04 270 / 0.12), inset 0 1px 0 oklch(1 0 0 / 0.5);
+}
+
+html[data-theme="light"] [data-governos-sidebar] {
+  border-color: oklch(1 0 0 / 0.32);
+  background: linear-gradient(180deg, oklch(1 0 0 / 0.32), oklch(0.94 0.025 270 / 0.2));
+  box-shadow: 0 20px 56px oklch(0.35 0.04 270 / 0.14), inset 0 1px 0 oklch(1 0 0 / 0.48);
+}
+
+html[data-theme="light"] [data-governos-shell] [data-governos-panel],
+html[data-theme="light"] [data-governos-shell] [data-governos-topbar] {
+  border-color: oklch(1 0 0 / 0.28);
+  background: oklch(1 0 0 / 0.2);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.46);
+}
+
+html[data-theme="light"] [data-governos-shell] [class*="bg-card"],
+html[data-theme="light"] [data-governos-shell] [data-governos-card] {
+  color: var(--color-foreground);
+  border-color: oklch(1 0 0 / 0.36) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.74), oklch(0.96 0.024 270 / 0.64)) !important;
+  box-shadow: 0 16px 38px oklch(0.35 0.04 270 / 0.12), inset 0 1px 0 oklch(1 0 0 / 0.72);
+  backdrop-filter: blur(36px) saturate(130%);
+  -webkit-backdrop-filter: blur(36px) saturate(130%);
+}
+
+html[data-theme="light"] [data-governos-shell] [data-governos-card] > * {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="light"] [data-governos-shell] input,
+html[data-theme="light"] [data-governos-shell] [role="combobox"] {
+  background-color: oklch(1 0 0 / 0.28);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.7);
+}
+
+html[data-theme="light"] .governos-float,
+html[data-theme="light"] .governos-dialog {
+  border-color: oklch(1 0 0 / 0.38) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.42), oklch(0.96 0.024 270 / 0.32)) !important;
+  box-shadow: 0 20px 56px oklch(0.35 0.04 270 / 0.14), inset 0 1px 0 oklch(1 0 0 / 0.58) !important;
+  backdrop-filter: blur(28px) saturate(135%);
+  -webkit-backdrop-filter: blur(28px) saturate(135%);
+}
+
+html[data-theme="light"] .governos-float {
+  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.92), oklch(0.93 0.024 270 / 0.88)) !important;
+  backdrop-filter: blur(30px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
+  box-shadow: 0 20px 56px oklch(0.35 0.04 270 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.72) !important;
+}
+
+html[data-theme="light"] .governos-float::before,
+html[data-theme="light"] .governos-dialog::before {
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.16), oklch(0.96 0.024 270 / 0.08));
+}
+
+html[data-theme="light"] .DialogOverlay,
+html[data-theme="light"] [data-radix-dialog-overlay],
+html[data-theme="light"] [data-radix-alert-dialog-overlay] {
+  background: oklch(0.15 0.02 265 / 0.16);
+}
+
+/* Keep light mode readable even when the theme attribute is applied before the class toggle. */
+html:not(.dark) .governos-float,
+html:not(.dark) .governos-dialog {
+  border-color: oklch(0.42 0.04 265 / 0.2) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.72), oklch(0.94 0.024 270 / 0.58)) !important;
+  color: oklch(0.23 0.025 270) !important;
+  box-shadow: 0 24px 64px oklch(0.35 0.04 270 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.78) !important;
+  backdrop-filter: blur(28px) saturate(135%);
+  -webkit-backdrop-filter: blur(28px) saturate(135%);
+}
+
+html:not(.dark) .governos-float {
+  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.92), oklch(0.93 0.024 270 / 0.88)) !important;
+  backdrop-filter: blur(30px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
+}
+
+html:not(.dark) .governos-float::before,
+html:not(.dark) .governos-dialog::before {
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.2), oklch(0.86 0.03 270 / 0.08));
+}
+
+html:not(.dark) .governos-dialog input,
+html:not(.dark) .governos-dialog [role="combobox"] {
+  border-color: oklch(0.42 0.04 265 / 0.26);
+  background: oklch(1 0 0 / 0.48);
+  color: oklch(0.23 0.025 270);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.72);
+}
+
+html:not(.dark) .governos-dialog input::placeholder {
+  color: oklch(0.45 0.03 270);
+}
+
+/* Gradient brands use their full stop set on filled accent surfaces. */
+.brand-gradient .bg-primary,
+.brand-gradient .sidebar-nav-active,
+.brand-gradient [class~="hover:bg-primary/90"]:hover {
+  background-color: transparent !important;
+  background-image: var(--gradient-brand) !important;
+}
+
+html:not(.dark) [data-radix-dialog-overlay],
+html:not(.dark) [data-radix-alert-dialog-overlay] {
+  background: oklch(0.15 0.02 265 / 0.12) !important;
+}
+
+/* Dashboard charts need explicit ink colors because Recharts renders SVG text outside normal text utility flow. */
+html[data-theme="light"] [data-governos-shell] .dashboard-chart {
+  color: oklch(0.23 0.025 270);
+  --dashboard-chart-ink: oklch(0.23 0.025 270);
+  --dashboard-chart-muted: oklch(0.42 0.035 270);
+  --dashboard-chart-grid: oklch(0.42 0.04 265 / 0.2);
+  --dashboard-chart-tooltip: oklch(1 0 0 / 0.86);
+}
+
+html[data-theme="light"] [data-governos-shell] .dashboard-chart h2,
+html[data-theme="light"] [data-governos-shell] .dashboard-chart h3 {
+  color: var(--dashboard-chart-ink) !important;
+}
+
+html[data-theme="light"] [data-governos-shell] .dashboard-chart .recharts-cartesian-axis-tick text,
+html[data-theme="light"] [data-governos-shell] .dashboard-chart .recharts-label {
+  fill: var(--dashboard-chart-muted) !important;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+html[data-theme="light"] [data-governos-shell] .dashboard-chart .recharts-cartesian-grid line {
+  stroke: var(--dashboard-chart-grid) !important;
+}
+
+html[data-theme="light"] [data-governos-shell] .dashboard-chart .recharts-bar-rectangle {
+  filter: saturate(0.94);
+}
+
+html[data-theme="light"] [data-governos-shell] .roles-group-card {
+  color: oklch(0.23 0.025 270);
+}
+
+html[data-theme="light"] [data-governos-shell] .roles-group-card .roles-group-title,
+html[data-theme="light"] [data-governos-shell] .roles-group-card b {
+  color: oklch(0.23 0.025 270) !important;
+}
+
+html[data-theme="light"] [data-governos-shell] .roles-group-card .text-muted-foreground {
+  color: oklch(0.42 0.035 270) !important;
+}
+
+html[data-theme="light"] [data-governos-shell] .roles-group-card .bg-muted {
+  background: oklch(0.92 0.025 270 / 0.62);
+}
+
+@keyframes governos-float-in {
+  from { opacity: 0; transform: translateY(-5px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes governos-popup-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes governos-popup-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(4px) scale(0.98); }
+}
+
+@keyframes governos-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes governos-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
