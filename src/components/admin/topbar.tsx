@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { BellIcon } from "@/components/ui/bell";
 import { LogoutIcon } from "@/components/ui/logout";
@@ -6,12 +7,21 @@ import { MenuIcon } from "@/components/ui/menu";
 import { SearchIcon } from "@/components/ui/search";
 import { SettingsIcon } from "@/components/ui/settings";
 import { UserIcon } from "@/components/ui/user";
+import { BellOff } from "lucide-react";
 import { AppearanceMenu } from "./appearance-menu";
+import { clearAuthentication } from "@/lib/auth";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    clearAuthentication();
+    void navigate({ to: "/login" });
+  }
+
   return (
     <header data-governos-panel data-governos-topbar className="sticky top-0 z-30 h-16 border-b border-border/70 bg-background/55 backdrop-blur-2xl">
       <div className="flex h-full items-center gap-3 px-4 lg:px-5">
@@ -39,10 +49,19 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
         <AppearanceMenu />
 
-        <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground">
-          <BellIcon className="h-4 w-4" />
-          <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-primary" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-9 w-9 text-muted-foreground" aria-label="Notifications">
+              <BellIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64 p-5">
+            <div className="flex flex-col items-center gap-2 py-3 text-center">
+              <BellOff className="h-7 w-7 text-muted-foreground/70" />
+              <p className="text-sm font-medium text-foreground">No new notifications</p>
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -56,7 +75,7 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
             <DropdownMenuItem><UserIcon className="mr-2 h-4 w-4" />Profile</DropdownMenuItem>
             <DropdownMenuItem><SettingsIcon className="mr-2 h-4 w-4" />Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive"><LogoutIcon className="mr-2 h-4 w-4" />Sign out</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive" onSelect={handleSignOut}><LogoutIcon className="mr-2 h-4 w-4" />Sign out</DropdownMenuItem>
 
           </DropdownMenuContent>
         </DropdownMenu>

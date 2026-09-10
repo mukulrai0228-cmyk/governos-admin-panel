@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Briefcase, Building2, FileText, GitBranch, IdCard, Mail, MapPin, Phone, ShieldCheck, Users } from "lucide-react";
 import { Breadcrumb } from "@/components/admin/states";
+import { EmployeeActions } from "@/components/admin/org-forms";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -63,6 +64,7 @@ function PersonRow({ person, active, caption }: { person: Employee; active?: boo
 
 export function EmployeeDetailPage({ employeeId }: { employeeId: string }) {
   const [tab, setTab] = useState<Tab>("positions");
+  const [, refresh] = useState(0);
   const employee = EMPLOYEES.find((item) => item.id === employeeId);
   if (!employee) {
     return (
@@ -91,6 +93,7 @@ export function EmployeeDetailPage({ employeeId }: { employeeId: string }) {
           </Button>
           <Breadcrumb items={[{ label: "Organization" }, { label: "Employees", to: "/organization/employees" }, { label: employee.name }]} />
         </div>
+        <EmployeeActions employee={employee} onChanged={() => refresh((value) => value + 1)} onDeleted={() => window.history.back()} />
       </div>
 
       <Card className="w-full min-w-0 overflow-hidden rounded-2xl border-border/70 p-0 shadow-[var(--shadow-soft)]">

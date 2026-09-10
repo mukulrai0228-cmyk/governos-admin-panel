@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useRef } from "react";
 import type { ForwardRefExoticComponent, HTMLAttributes, RefAttributes } from "react";
 import containerLogo from "@/assets/governos-container-logo.svg";
@@ -14,6 +14,7 @@ import { UsersIcon } from "@/components/ui/users";
 import { WorkflowIcon } from "@/components/ui/workflow";
 import { XIcon } from "@/components/ui/x";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { clearAuthentication } from "@/lib/auth";
 
 type AnimatedIconHandle = { startAnimation: () => void; stopAnimation: () => void };
 type AnimatedIcon = ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & { size?: number } & RefAttributes<AnimatedIconHandle>>;
@@ -48,6 +49,7 @@ type SidebarProps = {
 };
 
 export function Sidebar({ collapsed, mobileOpen, onCloseMobile, onToggleCollapsed }: SidebarProps) {
+  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const iconRefs = useRef<Record<string, AnimatedIconHandle | null>>({});
 
@@ -196,7 +198,7 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile, onToggleCollapse
             <div className="truncate text-xs font-semibold">Faisal Al-Otaibi</div>
             <div className="truncate text-[10px] text-sidebar-foreground/55">Administrator</div>
           </div>
-          <Button variant="ghost" size="icon" className={cn("h-8 w-8 shrink-0 text-sidebar-foreground/55", collapsed && "lg:hidden")} aria-label="Sign out">
+          <Button variant="ghost" size="icon" className={cn("h-8 w-8 shrink-0 text-sidebar-foreground/55", collapsed && "lg:hidden")} aria-label="Sign out" onClick={() => { clearAuthentication(); void navigate({ to: "/login" }); }}>
             <LogoutIcon className="h-3.5 w-3.5" />
           </Button>
         </div>

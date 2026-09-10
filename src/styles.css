@@ -162,10 +162,10 @@
     overflow: clip;
     border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
     border-radius: 28px;
-    background: color-mix(in oklab, var(--background) 62%, transparent);
+    background: color-mix(in oklab, var(--background) 54%, transparent);
     box-shadow: 0 28px 80px color-mix(in oklab, var(--foreground) 16%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 24%, white);
-    backdrop-filter: blur(28px) saturate(140%);
-    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    backdrop-filter: blur(34px) saturate(145%);
+    -webkit-backdrop-filter: blur(34px) saturate(145%);
   }
 
   [data-governos-shell] [data-governos-topbar] {
@@ -180,10 +180,10 @@
 
   [data-governos-shell] [data-governos-panel] {
     border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
-    background: color-mix(in oklab, var(--card) 64%, transparent);
+    background: color-mix(in oklab, var(--card) 56%, transparent);
     box-shadow: var(--shadow-soft), inset 0 1px 0 color-mix(in oklab, var(--card) 26%, white);
-    backdrop-filter: blur(24px) saturate(135%);
-    -webkit-backdrop-filter: blur(24px) saturate(135%);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
   }
 
   [data-governos-workspace] > main {
@@ -196,15 +196,15 @@
 
   /* Some organization views use direct bg-card surfaces instead of the shared Card component. */
   [data-governos-shell] [class*="bg-card"] {
-    background: color-mix(in oklab, var(--card) 56%, transparent) !important;
+    background: color-mix(in oklab, var(--card) 48%, transparent) !important;
     border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
     box-shadow: 0 14px 38px color-mix(in oklab, var(--foreground) 12%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 28%, white);
-    backdrop-filter: blur(24px) saturate(145%);
-    -webkit-backdrop-filter: blur(24px) saturate(145%);
+    backdrop-filter: blur(30px) saturate(145%);
+    -webkit-backdrop-filter: blur(30px) saturate(145%);
   }
 
   [data-governos-shell] [data-governos-card] {
-    background: color-mix(in oklab, var(--card) 58%, transparent) !important;
+    background: color-mix(in oklab, var(--card) 50%, transparent) !important;
     border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
     box-shadow: 0 18px 48px color-mix(in oklab, var(--foreground) 13%, transparent), inset 0 1px 0 color-mix(in oklab, var(--card) 30%, white);
   }
@@ -385,20 +385,20 @@
   isolation: isolate;
   overflow: hidden;
   border-color: oklch(0.95 0.015 265 / 0.19) !important;
-  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.95), oklch(0.13 0.03 265 / 0.97)) !important;
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.84), oklch(0.13 0.03 265 / 0.89)) !important;
   box-shadow: 0 22px 60px oklch(0.04 0.028 265 / 0.46), inset 0 1px 0 oklch(1 0 0 / 0.13) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  backdrop-filter: blur(30px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
 }
 
 .governos-dialog {
   position: fixed;
   isolation: isolate;
   border-color: oklch(0.95 0.015 265 / 0.2) !important;
-  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.72), oklch(0.12 0.03 265 / 0.78)) !important;
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.68), oklch(0.12 0.03 265 / 0.75)) !important;
   box-shadow: 0 28px 100px oklch(0.04 0.028 265 / 0.58), inset 0 1px 0 oklch(1 0 0 / 0.14) !important;
-  backdrop-filter: blur(24px) saturate(130%);
-  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(34px) saturate(140%);
+  -webkit-backdrop-filter: blur(34px) saturate(140%);
 }
 
 .governos-float::before,
@@ -440,6 +440,40 @@
   transition: transform 180ms ease;
 }
 
+.governos-appearance-menu > .governos-close-button {
+  right: 1.25rem;
+  top: 1.25rem;
+  box-shadow: none;
+}
+
+.governos-appearance-menu > .governos-close-button:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--primary) 48%, transparent) !important;
+}
+
+.governos-appearance-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.governos-appearance-menu::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  background-clip: padding-box;
+}
+
+/* Light glass already has enough depth; avoid a dark halo around the close control. */
+html[data-theme="light"] .governos-close-button,
+html:not(.dark) .governos-close-button {
+  box-shadow: none !important;
+}
+
+html[data-theme="light"] .governos-close-button:hover,
+html[data-theme="light"] .governos-close-button:focus-visible,
+html:not(.dark) .governos-close-button:hover,
+html:not(.dark) .governos-close-button:focus-visible {
+  box-shadow: none !important;
+}
+
 /* All portaled surfaces share the same quick glass open/close motion. */
 .governos-float[data-state="open"],
 .governos-dialog[data-state="open"] {
@@ -479,17 +513,20 @@ html.dark [data-governos-shell] [data-governos-topbar] {
 html.dark [data-governos-shell] [data-governos-panel],
 html.dark [data-governos-shell] [class*="bg-card"],
 html.dark [data-governos-shell] [data-governos-card] {
-  background: color-mix(in oklab, var(--card) 48%, transparent) !important;
+  background: color-mix(in oklab, var(--card) 42%, transparent) !important;
   box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(32px) saturate(145%);
+  -webkit-backdrop-filter: blur(32px) saturate(145%);
 }
 
 html.dark .governos-float,
 html.dark .governos-dialog {
+  color: var(--foreground) !important;
   box-shadow: 0 22px 60px oklch(0.04 0.028 265 / 0.46) !important;
 }
 
 html.dark .governos-float {
-  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.96), oklch(0.13 0.03 265 / 0.98)) !important;
+  background: linear-gradient(135deg, oklch(0.22 0.03 265 / 0.84), oklch(0.13 0.03 265 / 0.89)) !important;
 }
 
 html.dark .governos-dialog::before {
@@ -535,10 +572,10 @@ html[data-theme="light"] [data-governos-shell] [class*="bg-card"],
 html[data-theme="light"] [data-governos-shell] [data-governos-card] {
   color: var(--color-foreground);
   border-color: oklch(1 0 0 / 0.36) !important;
-  background: linear-gradient(135deg, oklch(1 0 0 / 0.74), oklch(0.96 0.024 270 / 0.64)) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.58), oklch(0.96 0.024 270 / 0.48)) !important;
   box-shadow: 0 16px 38px oklch(0.35 0.04 270 / 0.12), inset 0 1px 0 oklch(1 0 0 / 0.72);
-  backdrop-filter: blur(36px) saturate(130%);
-  -webkit-backdrop-filter: blur(36px) saturate(130%);
+  backdrop-filter: blur(42px) saturate(135%);
+  -webkit-backdrop-filter: blur(42px) saturate(135%);
 }
 
 html[data-theme="light"] [data-governos-shell] [data-governos-card] > * {
@@ -555,16 +592,16 @@ html[data-theme="light"] [data-governos-shell] [role="combobox"] {
 html[data-theme="light"] .governos-float,
 html[data-theme="light"] .governos-dialog {
   border-color: oklch(1 0 0 / 0.38) !important;
-  background: linear-gradient(135deg, oklch(1 0 0 / 0.42), oklch(0.96 0.024 270 / 0.32)) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.36), oklch(0.96 0.024 270 / 0.26)) !important;
   box-shadow: 0 20px 56px oklch(0.35 0.04 270 / 0.14), inset 0 1px 0 oklch(1 0 0 / 0.58) !important;
-  backdrop-filter: blur(28px) saturate(135%);
-  -webkit-backdrop-filter: blur(28px) saturate(135%);
+  backdrop-filter: blur(36px) saturate(140%);
+  -webkit-backdrop-filter: blur(36px) saturate(140%);
 }
 
 html[data-theme="light"] .governos-float {
-  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.92), oklch(0.93 0.024 270 / 0.88)) !important;
-  backdrop-filter: blur(30px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
+  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.78), oklch(0.93 0.024 270 / 0.70)) !important;
+  backdrop-filter: blur(38px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(38px) saturate(145%) !important;
   box-shadow: 0 20px 56px oklch(0.35 0.04 270 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.72) !important;
 }
 
@@ -583,17 +620,17 @@ html[data-theme="light"] [data-radix-alert-dialog-overlay] {
 html:not(.dark) .governos-float,
 html:not(.dark) .governos-dialog {
   border-color: oklch(0.42 0.04 265 / 0.2) !important;
-  background: linear-gradient(135deg, oklch(1 0 0 / 0.72), oklch(0.94 0.024 270 / 0.58)) !important;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.62), oklch(0.94 0.024 270 / 0.48)) !important;
   color: oklch(0.23 0.025 270) !important;
   box-shadow: 0 24px 64px oklch(0.35 0.04 270 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.78) !important;
-  backdrop-filter: blur(28px) saturate(135%);
-  -webkit-backdrop-filter: blur(28px) saturate(135%);
+  backdrop-filter: blur(36px) saturate(140%);
+  -webkit-backdrop-filter: blur(36px) saturate(140%);
 }
 
 html:not(.dark) .governos-float {
-  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.92), oklch(0.93 0.024 270 / 0.88)) !important;
-  backdrop-filter: blur(30px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(30px) saturate(140%) !important;
+  background: linear-gradient(135deg, oklch(0.98 0.012 270 / 0.78), oklch(0.93 0.024 270 / 0.70)) !important;
+  backdrop-filter: blur(38px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(38px) saturate(145%) !important;
 }
 
 html:not(.dark) .governos-float::before,

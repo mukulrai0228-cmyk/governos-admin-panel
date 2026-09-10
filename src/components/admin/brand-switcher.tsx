@@ -139,7 +139,7 @@ function buildCss(b: Brand): string {
   const dark = `
     --primary:${p}; --ring:${p}; --sidebar-primary:${p}; --sidebar-ring:${p}; --chart-1:${p};
     --primary-foreground:${b.primaryForeground ?? "#ffffff"};
-    --background:${D.bg}; --card:${D.card}; --popover:${D.card};
+    --background:${D.bg}; --card:${D.card}; --card-foreground:${D.fg}; --popover:${D.card}; --popover-foreground:${D.fg};
     --sidebar:${D.sidebar}; --sidebar-accent:color-mix(in oklab, ${p} 15%, ${D.accent});
     --sidebar-border:${D.border};
     --sidebar-foreground: ${D.fg};

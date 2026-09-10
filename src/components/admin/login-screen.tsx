@@ -6,31 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/governors-logo.svg";
 import { BRANDS, applyBrand } from "./brand-switcher";
+import { setAuthenticated } from "@/lib/auth";
+import { WarpStripesBackground } from "./warp-stripes-background";
 
-const DEFAULT_WALLPAPER = "/wallpapers/bolivia.jpg";
 export const DEMO_LOGIN = {
   email: "demo@governos.com",
   password: "GovernOS2026!",
 } as const;
-const WALLPAPERS = [
-  { id: "mountain", value: "/wallpapers/mountain.jpg" },
-  { id: "aurora", value: "linear-gradient(135deg, #162d52 0%, #55345f 46%, #ef7658 100%)" },
-  { id: "bolivia", value: "/wallpapers/bolivia.jpg" },
-] as const;
-
 function initializeLoginTheme() {
   const brandId = localStorage.getItem("admin-brand") ?? "sapphire";
   const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS.find((item) => item.id === "sapphire") ?? BRANDS[0];
   applyBrand(brand);
-
-  const wallpaperId = localStorage.getItem("admin-wallpaper") ?? "bolivia";
-  const wallpaper = WALLPAPERS.find((item) => item.id === wallpaperId)?.value
-    ?? localStorage.getItem("admin-wallpaper-value")
-    ?? DEFAULT_WALLPAPER;
-  document.documentElement.style.setProperty(
-    "--governos-wallpaper",
-    wallpaper.startsWith("linear-gradient") ? wallpaper : `url(${wallpaper})`,
-  );
 
   const isDark = localStorage.getItem("theme") !== "light";
   document.documentElement.classList.toggle("dark", isDark);
@@ -74,6 +60,7 @@ export function LoginScreen() {
     }
 
     setError("");
+    setAuthenticated();
     setIsLoading(true);
     window.setTimeout(() => {
       setIsLoading(false);
@@ -84,14 +71,9 @@ export function LoginScreen() {
   return (
     <main
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background/75 px-4 py-12 text-foreground sm:px-6 sm:py-16"
-      style={{
-        backgroundImage: "linear-gradient(90deg, color-mix(in oklab, var(--background) 78%, transparent), color-mix(in oklab, var(--background) 88%, transparent)), var(--governos-wallpaper)",
-        backgroundAttachment: "fixed",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,color-mix(in_oklab,var(--foreground)_5%,transparent),transparent_42%,color-mix(in_oklab,var(--foreground)_3%,transparent))]" />
+      <WarpStripesBackground />
+      <div className="pointer-events-none absolute inset-0 bg-background/45" />
       <div className="pointer-events-none absolute inset-0 opacity-[0.16] [background-image:linear-gradient(var(--color-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-border)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_76%)]" />
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent"
@@ -119,7 +101,7 @@ export function LoginScreen() {
               transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
               style={{ backgroundSize: "220% 100%" }}
             />
-            <section className="relative overflow-hidden rounded-2xl border border-border/80 bg-card/78 p-8 shadow-[var(--shadow-elegant)] backdrop-blur-2xl sm:p-10">
+            <section className="relative overflow-hidden rounded-2xl border border-foreground/20 bg-card/32 p-8 shadow-[0_24px_80px_color-mix(in_oklab,var(--background)_45%,transparent)] backdrop-blur-3xl sm:p-10">
               <motion.div
                 className="pointer-events-none absolute left-0 top-0 h-px w-1/2 bg-gradient-to-r from-transparent via-foreground/55 to-transparent"
                 animate={{ left: ["-50%", "100%"], opacity: [0.08, 0.28, 0.08] }}
@@ -200,7 +182,7 @@ export function LoginScreen() {
                   </span>
                 </label>
 
-                <div className="flex items-center justify-between gap-4 pt-2 text-xs">
+                <div className="flex items-center gap-4 pt-2 text-xs">
                   <label className="inline-flex cursor-pointer items-center gap-2 text-muted-foreground hover:text-foreground">
                     <input
                       type="checkbox"
@@ -210,7 +192,6 @@ export function LoginScreen() {
                     />
                     Remember me
                   </label>
-                  <button type="button" className="font-medium text-primary transition-colors hover:text-primary/80">Forgot password?</button>
                 </div>
 
                 {error && <p className="text-xs text-destructive" role="alert">{error}</p>}

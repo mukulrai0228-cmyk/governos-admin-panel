@@ -337,6 +337,20 @@ function buildOrganization() {
 }
 
 export const { roles: ROLES, employees: EMPLOYEES } = buildOrganization();
+
+export function updateEmployee(id: string, patch: Partial<Employee>) {
+  const employee = EMPLOYEES.find((item) => item.id === id);
+  if (!employee) return false;
+  Object.assign(employee, patch);
+  return true;
+}
+
+export function removeEmployee(id: string) {
+  const index = EMPLOYEES.findIndex((item) => item.id === id);
+  if (index < 0) return false;
+  EMPLOYEES.splice(index, 1);
+  return true;
+}
 export const POSITIONS = ROLES;
 
 export const companyById = (id: string | null | undefined) => COMPANIES.find((item) => item.id === id);
