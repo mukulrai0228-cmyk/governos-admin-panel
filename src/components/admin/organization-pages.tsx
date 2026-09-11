@@ -76,10 +76,11 @@ export function EmployeesPage({ initialFilters = {} }: { initialFilters?: Employ
   const [query, setQuery] = useState(""); const [company, setCompany] = useState(initialFilters.company ?? ""); const [department, setDepartment] = useState(initialFilters.department ?? ""); const [unplaced, setUnplaced] = useState(initialFilters.unplaced ?? false); const [sort, setSort] = useState<keyof typeof COLUMN_LABELS>("name"); const [descending, setDescending] = useState(false); const [page, setPage] = useState(1); const [view, setView] = useState<"table" | "grid">("grid"); const [, refresh] = useState(0);
   const positionName = (id: string | null) => roleById(id)?.name ?? "Not assigned";
   const rows = useMemo(() => {
-    const term = query.trim().toLowerCase(); let result = EMPLOYEES.filter((employee) => {
+    const term = query.trim().toLowerCase();
+    const allowedCompanies = company ? companyDescendants(company) : [];
+    const allowedDepartments = department ? departmentDescendants(department) : [];
+    let result = EMPLOYEES.filter((employee) => {
       const matches = !term || [employee.name, employee.email, employee.id, positionName(employee.role)].some((value) => value.toLowerCase().includes(term));
-      const allowedCompanies = company ? companyDescendants(company) : [];
-      const allowedDepartments = department ? departmentDescendants(department) : [];
       return matches && (!company || allowedCompanies.includes(employee.company)) && (!department || (employee.department ? allowedDepartments.includes(employee.department) : false)) && (!unplaced || !employee.department);
     });
     const value = (employee: Employee) => ({ name: employee.name, role: positionName(employee.role), department: departmentById(employee.department)?.name ?? "zzz", company: companyById(employee.company)?.name ?? "", location: employee.location }[sort]);

@@ -14,7 +14,7 @@ precision highp float;
 precision mediump float;
 #endif
 uniform vec3 u_colors[4];
-uniform vec4 u_scene, u_shape, u_surface, u_finish, u_transform, u_space, u_cursor;
+uniform vec4 u_scene, u_shape, u_surface, u_finish, u_transform;
 #define u_resolution u_scene.xy
 #define u_time u_scene.z
 #define u_scale u_shape.x
@@ -103,16 +103,12 @@ export function WarpStripesBackground() {
     const surface = gl.getUniformLocation(program, "u_surface");
     const finish = gl.getUniformLocation(program, "u_finish");
     const transform = gl.getUniformLocation(program, "u_transform");
-    const space = gl.getUniformLocation(program, "u_space");
-    const cursor = gl.getUniformLocation(program, "u_cursor");
     const colors = gl.getUniformLocation(program, "u_colors");
     gl.uniform3fv(colors, new Float32Array([0.051, 0.106, 0.059, 0.243, 0.557, 0.255, 0.780, 0.957, 0.392, 1.0, 0.992, 0.882]));
     gl.uniform4f(shape, 0.62, 0.06, 0.24, 0.48);
     gl.uniform4f(surface, 1.09, 1.33, -0.36, 1.40);
     gl.uniform4f(finish, 4.03, 0.34, 0.0, 0.02);
     gl.uniform4f(transform, 1170.0, 4.01, 0.20, 0.0);
-    gl.uniform4f(space, -0.05, 0.14, 0.0, 0.0);
-    gl.uniform4f(cursor, 0.0, 3.0, 0.46, 0.30);
 
     let frame = 0;
     let start = performance.now();

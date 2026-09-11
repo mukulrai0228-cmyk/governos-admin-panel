@@ -93,11 +93,53 @@ export const BRANDS: Brand[] = [
     stops: ["#166534", "#16A34A", "#FDE047"] },
   { id: "twilight",  name: "Twilight",        primary: "#4F46E5", accent: "#F472B6", font: "Inter", tone: "cool", group: "Gradient",
     stops: ["#172554", "#4F46E5", "#F472B6"] },
+  { id: "nebula",    name: "Nebula",          primary: "#7C3AED", accent: "#38BDF8", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#111827", "#7C3AED", "#38BDF8"] },
+  { id: "prism",     name: "Prism",           primary: "#2563EB", accent: "#F43F5E", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#2563EB", "#8B5CF6", "#F43F5E"] },
+  { id: "blue-hour", name: "Blue Hour",       primary: "#1D4ED8", accent: "#A78BFA", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#172554", "#1D4ED8", "#A78BFA"] },
+  { id: "ocean-sunrise", name: "Ocean Sunrise", primary: "#0EA5E9", accent: "#F59E0B", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#164E63", "#0EA5E9", "#F59E0B"] },
+  { id: "lavender-mist", name: "Lavender Mist", primary: "#8B5CF6", accent: "#F9A8D4", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#4338CA", "#A78BFA", "#F9A8D4"] },
+  { id: "arctic-lime", name: "Arctic Lime",     primary: "#06B6D4", accent: "#A3E635", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#0E7490", "#06B6D4", "#A3E635"] },
+  { id: "emerald-sky", name: "Emerald Sky",     primary: "#10B981", accent: "#60A5FA", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#065F46", "#10B981", "#60A5FA"] },
+  { id: "midnight-rose", name: "Midnight Rose",  primary: "#E11D48", accent: "#818CF8", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#1E1B4B", "#BE185D", "#818CF8"] },
+  { id: "solar-flare", name: "Solar Flare",      primary: "#F97316", accent: "#FDE047", font: "Inter", tone: "warm", group: "Gradient",
+    stops: ["#9A3412", "#F97316", "#FDE047"] },
+  { id: "plum-fire", name: "Plum Fire",         primary: "#C026D3", accent: "#FB923C", font: "Inter", tone: "warm", group: "Gradient",
+    stops: ["#581C87", "#C026D3", "#FB923C"] },
+  { id: "blue-horizon", name: "Blue Horizon",    primary: "#0284C7", accent: "#34D399", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#0C4A6E", "#0284C7", "#34D399"] },
+  { id: "mint-sunset", name: "Mint Sunset",      primary: "#14B8A6", accent: "#FB7185", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#115E59", "#14B8A6", "#FB7185"] },
+  { id: "electric-violet", name: "Electric Violet", primary: "#4F46E5", accent: "#E879F9", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#312E81", "#4F46E5", "#E879F9"] },
+  { id: "moonlit",   name: "Moonlit",           primary: "#64748B", accent: "#C4B5FD", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#0F172A", "#475569", "#C4B5FD"] },
+  { id: "candy-sky", name: "Candy Sky",         primary: "#38BDF8", accent: "#F0ABFC", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#0369A1", "#38BDF8", "#F0ABFC"] },
+  { id: "volcanic",  name: "Volcanic",          primary: "#DC2626", accent: "#F59E0B", font: "Inter", tone: "warm", group: "Gradient",
+    stops: ["#450A0A", "#DC2626", "#F59E0B"] },
+  { id: "rainforest", name: "Rainforest",       primary: "#15803D", accent: "#22D3EE", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#052E16", "#15803D", "#22D3EE"] },
+  { id: "copper-night", name: "Copper Night",   primary: "#B45309", accent: "#A78BFA", font: "Inter", tone: "warm", group: "Gradient",
+    stops: ["#1C1917", "#B45309", "#A78BFA"] },
+  { id: "bluebell",  name: "Bluebell",          primary: "#6366F1", accent: "#67E8F9", font: "Inter", tone: "cool", group: "Gradient",
+    stops: ["#3730A3", "#6366F1", "#67E8F9"] },
+  { id: "peach-orchid", name: "Peach Orchid",   primary: "#DB2777", accent: "#FDBA74", font: "Inter", tone: "warm", group: "Gradient",
+    stops: ["#9D174D", "#DB2777", "#FDBA74"] },
 
   // Neutral — restrained accents for a quiet workspace
   { id: "pearl",     name: "Pearl White",      primary: "#E5E7EB", accent: "#FFFFFF", font: "Inter", tone: "cool", group: "Neutral", primaryForeground: "#111827" },
   { id: "graphite",  name: "Graphite",         primary: "#374151", accent: "#9CA3AF", font: "Inter", tone: "cool", group: "Neutral" },
 ];
+
+export const DEFAULT_BRAND_ID = "twilight";
 
 
 const WARM_LIGHT = { bg: "#f8f4f0", sidebar: "#f3ede8", card: "#ffffff", muted: "#eee7e1", accent: "#e8ddd4", border: "#d8cec6", fg: "#201b22", mutedFg: "#6f6670" };
@@ -120,9 +162,11 @@ function buildCss(b: Brand): string {
   // Brand choices are accents only; the workspace surfaces keep the Govern OS palette.
   const L = COOL_LIGHT;
   const D = COOL_DARK;
+  const stops = b.stops ?? [b.primary, b.primary, b.primary];
 
   const light = `
-    --primary:${p}; --ring:${p}; --sidebar-primary:${p}; --sidebar-ring:${p}; --chart-1:${p};
+    --primary:${p}; --ring:${p}; --sidebar-primary:${p}; --sidebar-ring:${p}; --chart-1:${p}; --chart-fill:${b.stops ? "url(#dashboard-brand-gradient)" : p};
+    --brand-stop-1:${stops[0]}; --brand-stop-2:${stops[1]}; --brand-stop-3:${stops[2]};
     --primary-foreground:${b.primaryForeground ?? "#ffffff"};
     --background:${L.bg}; --card:${L.card}; --card-foreground:${L.fg}; --popover:${L.card}; --popover-foreground:${L.fg};
     --sidebar:${L.sidebar}; --sidebar-accent:color-mix(in oklab, ${p} 12%, ${L.accent});
@@ -137,7 +181,8 @@ function buildCss(b: Brand): string {
   `;
 
   const dark = `
-    --primary:${p}; --ring:${p}; --sidebar-primary:${p}; --sidebar-ring:${p}; --chart-1:${p};
+    --primary:${p}; --ring:${p}; --sidebar-primary:${p}; --sidebar-ring:${p}; --chart-1:${p}; --chart-fill:${b.stops ? "url(#dashboard-brand-gradient)" : p};
+    --brand-stop-1:${stops[0]}; --brand-stop-2:${stops[1]}; --brand-stop-3:${stops[2]};
     --primary-foreground:${b.primaryForeground ?? "#ffffff"};
     --background:${D.bg}; --card:${D.card}; --card-foreground:${D.fg}; --popover:${D.card}; --popover-foreground:${D.fg};
     --sidebar:${D.sidebar}; --sidebar-accent:color-mix(in oklab, ${p} 15%, ${D.accent});
@@ -169,11 +214,11 @@ export function applyBrand(brand: Brand) {
 }
 
 export function BrandSwitcher() {
-  const [activeId, setActiveId] = useState<string>("sapphire");
+  const [activeId, setActiveId] = useState<string>(DEFAULT_BRAND_ID);
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY) ?? "sapphire";
-    const brand = BRANDS.find((b) => b.id === saved) ?? BRANDS[0];
+    const saved = localStorage.getItem(STORAGE_KEY) ?? DEFAULT_BRAND_ID;
+    const brand = BRANDS.find((b) => b.id === saved) ?? BRANDS.find((b) => b.id === DEFAULT_BRAND_ID) ?? BRANDS[0];
     setActiveId(brand.id);
     applyBrand(brand);
   }, []);
@@ -197,7 +242,7 @@ export function BrandSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-72 max-h-[70vh] overflow-y-auto">
-        {(["Cool", "Green", "Warm", "Gradient", "Neutral"] as const).map((group, gi) => (
+        {(["Gradient", "Cool", "Green", "Warm", "Neutral"] as const).map((group, gi) => (
           <div key={group}>
             {gi > 0 && <DropdownMenuSeparator />}
             <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">

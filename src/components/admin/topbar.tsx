@@ -7,12 +7,14 @@ import { MenuIcon } from "@/components/ui/menu";
 import { SearchIcon } from "@/components/ui/search";
 import { SettingsIcon } from "@/components/ui/settings";
 import { UserIcon } from "@/components/ui/user";
-import { BellOff } from "lucide-react";
+import { BellOff, ChevronDown } from "lucide-react";
 import { AppearanceMenu } from "./appearance-menu";
 import { clearAuthentication } from "@/lib/auth";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+const ADMIN_AVATAR = "/profiles/frame-12.jpg";
 
 export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const navigate = useNavigate();
@@ -38,11 +40,8 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
           <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search employees, positions or entities…"
-            className="h-9 rounded-xl border-border/60 bg-card/50 pl-9 pr-14 text-sm placeholder:text-muted-foreground/70"
+            className="h-9 rounded-xl border-border/60 bg-card/50 pl-9 pr-3 text-sm placeholder:text-muted-foreground/70"
           />
-          <kbd className="hidden lg:inline-flex absolute right-3 top-1/2 -translate-y-1/2 items-center gap-0.5 rounded border border-border/70 bg-muted/50 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
-            ⌘K
-          </kbd>
         </div>
 
         <div className="flex-1" />
@@ -65,12 +64,20 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="h-9 w-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-semibold hover:ring-2 hover:ring-primary/20">
-              FA
+            <button className="inline-flex h-9 items-center gap-1 rounded-full px-0.5 text-primary hover:ring-2 hover:ring-primary/20" aria-label="Open profile menu">
+              <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-xs font-semibold">
+              <img src={ADMIN_AVATAR} alt="" className="h-full w-full object-cover" />
+              </span>
+              <ChevronDown className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">
-            <DropdownMenuLabel>Faisal Al-Otaibi</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <div className="flex items-center gap-2">
+                <img src={ADMIN_AVATAR} alt="" className="h-8 w-8 rounded-full border border-border object-cover" />
+                <span>Faisal Al-Otaibi</span>
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem><UserIcon className="mr-2 h-4 w-4" />Profile</DropdownMenuItem>
             <DropdownMenuItem><SettingsIcon className="mr-2 h-4 w-4" />Settings</DropdownMenuItem>

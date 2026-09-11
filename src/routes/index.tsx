@@ -143,19 +143,26 @@ function Dashboard() {
           <div className="h-[23rem]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={headcountByEntity} layout="vertical" margin={{ left: 4, right: 28, top: 8, bottom: 4 }} barCategoryGap="22%">
+                <defs>
+                  <linearGradient id="dashboard-brand-gradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="var(--brand-stop-1)" />
+                    <stop offset="52%" stopColor="var(--brand-stop-2)" />
+                    <stop offset="100%" stopColor="var(--brand-stop-3)" />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid stroke="var(--color-border)" strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" domain={[0, chartMax]} allowDecimals={false} stroke="var(--color-muted-foreground)" fontSize={11} tickLine={false} axisLine={false} tickCount={5} />
                 <YAxis type="category" dataKey="name" width={132} stroke="var(--color-muted-foreground)" fontSize={11} tickLine={false} axisLine={false} tick={{ dx: -4 }} />
                 <Tooltip
                   cursor={{ fill: "var(--color-primary)", opacity: 0.06 }}
-                  contentStyle={{ background: "color-mix(in oklab, var(--color-popover) 94%, transparent)", border: "1px solid var(--color-border)", borderRadius: 10, boxShadow: "0 12px 30px color-mix(in oklab, var(--color-foreground) 14%, transparent)", color: "var(--color-foreground)", fontSize: 12 }}
-                  labelStyle={{ color: "var(--color-foreground)", fontWeight: 600 }}
+                  contentStyle={{ background: "var(--color-popover)", border: "1px solid var(--color-border)", borderRadius: 10, boxShadow: "0 12px 30px color-mix(in oklab, var(--color-foreground) 14%, transparent)", color: "var(--color-popover-foreground)", fontSize: 12 }}
+                  labelStyle={{ color: "var(--color-popover-foreground)", fontWeight: 600 }}
                   itemStyle={{ color: "var(--color-muted-foreground)" }}
                   formatter={(value) => [`${value} employees`, "Headcount"]}
                 />
                 <Bar dataKey="people" radius={[0, 7, 7, 0]} barSize={22} animationBegin={140} animationDuration={900} animationEasing="ease-out">
                   {headcountByEntity.map((entry) => (
-                    <Cell key={entry.id} fill={entry.people ? "var(--color-chart-1)" : "var(--color-border)"} fillOpacity={entry.people ? 0.95 : 0.45} />
+                    <Cell key={entry.id} fill={entry.people ? "var(--chart-fill)" : "var(--color-border)"} fillOpacity={entry.people ? 0.95 : 0.45} />
                   ))}
                   <LabelList dataKey="people" position="right" offset={8} fill="var(--color-foreground)" fontSize={11} fontWeight={600} />
                 </Bar>

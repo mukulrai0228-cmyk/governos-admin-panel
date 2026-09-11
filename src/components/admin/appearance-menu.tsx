@@ -5,7 +5,7 @@ import { PaletteIcon } from "@/components/ui/palette";
 import { SunIcon } from "@/components/ui/sun";
 import { MoonIcon } from "@/components/ui/moon";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { BRANDS, applyBrand, gradientCss } from "./brand-switcher";
+import { BRANDS, DEFAULT_BRAND_ID, applyBrand, gradientCss } from "./brand-switcher";
 
 const WALLPAPER_KEY = "admin-wallpaper";
 const DEFAULT_WALLPAPER = "/wallpapers/bolivia.jpg";
@@ -22,16 +22,16 @@ function setWallpaper(value: string) {
 }
 
 export function AppearanceMenu() {
-  const [activeBrand, setActiveBrand] = useState("sapphire");
+  const [activeBrand, setActiveBrand] = useState(DEFAULT_BRAND_ID);
   const [wallpaper, setWallpaperId] = useState("bolivia");
   const [isDark, setIsDark] = useState(true);
   const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const brandId = localStorage.getItem("admin-brand") ?? "sapphire";
+    const brandId = localStorage.getItem("admin-brand") ?? DEFAULT_BRAND_ID;
     const savedWallpaper = localStorage.getItem(WALLPAPER_KEY) ?? "bolivia";
     const storedTheme = localStorage.getItem("theme");
-    const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS[0];
+    const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS.find((item) => item.id === DEFAULT_BRAND_ID) ?? BRANDS[0];
     const builtIn = WALLPAPERS.find((item) => item.id === savedWallpaper);
     setActiveBrand(brand.id);
     setWallpaperId(builtIn ? builtIn.id : "custom");
@@ -117,7 +117,7 @@ export function AppearanceMenu() {
 
           <div className="border-t border-border/70 pt-6">
             <div className="mb-4"><div className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Colour</div><p className="mt-1 text-xs text-muted-foreground">Change the accent without changing the workspace mood.</p></div>
-            {(["Cool", "Green", "Warm", "Gradient", "Neutral"] as const).map((group) => (
+            {(["Gradient", "Cool", "Green", "Warm", "Neutral"] as const).map((group) => (
               <div key={group} className="mb-5 last:mb-0">
                 <div className="mb-2 text-xs font-semibold text-foreground">{group}</div>
             <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">

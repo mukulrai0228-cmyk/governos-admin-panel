@@ -5,7 +5,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/governors-logo.svg";
-import { BRANDS, applyBrand } from "./brand-switcher";
+import { BRANDS, DEFAULT_BRAND_ID, applyBrand } from "./brand-switcher";
 import { setAuthenticated } from "@/lib/auth";
 import { WarpStripesBackground } from "./warp-stripes-background";
 
@@ -14,8 +14,8 @@ export const DEMO_LOGIN = {
   password: "GovernOS2026!",
 } as const;
 function initializeLoginTheme() {
-  const brandId = localStorage.getItem("admin-brand") ?? "sapphire";
-  const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS.find((item) => item.id === "sapphire") ?? BRANDS[0];
+  const brandId = localStorage.getItem("admin-brand") ?? DEFAULT_BRAND_ID;
+  const brand = BRANDS.find((item) => item.id === brandId) ?? BRANDS.find((item) => item.id === DEFAULT_BRAND_ID) ?? BRANDS[0];
   applyBrand(brand);
 
   // Login always uses the dark glass treatment, independently of the workspace preference.

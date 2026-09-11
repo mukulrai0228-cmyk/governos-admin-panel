@@ -19,7 +19,7 @@ const TABS = [
 type Tab = (typeof TABS)[number]["id"];
 
 function Chip({ children }: { children: ReactNode }) {
-  return <span className="inline-flex items-center rounded-full border border-border/70 bg-transparent px-2.5 py-1 text-[11px] font-medium text-muted-foreground">{children}</span>;
+  return <span className="inline-flex items-center rounded-md border border-foreground/15 bg-foreground/5 px-2.5 py-1 text-[11px] font-semibold text-foreground">{children}</span>;
 }
 
 function Avatar({ name, image, size = "md", active }: { name: string; image?: string; size?: "sm" | "md" | "lg"; active?: boolean }) {

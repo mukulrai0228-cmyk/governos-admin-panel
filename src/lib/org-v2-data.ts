@@ -338,10 +338,20 @@ function buildOrganization() {
 
 export const { roles: ROLES, employees: EMPLOYEES } = buildOrganization();
 
+const employeeById = new Map(EMPLOYEES.map((employee) => [employee.id, employee]));
+const companyByIdIndex = new Map(COMPANIES.map((company) => [company.id, company]));
+const departmentByIdIndex = new Map(DEPARTMENTS.map((department) => [department.id, department]));
+const governanceByIdIndex = new Map(GOVERNANCE.map((body) => [body.id, body]));
+const roleByIdIndex = new Map(ROLES.map((role) => [role.id, role]));
+const companyDescendantCache = new Map<string, string[]>();
+const departmentDescendantCache = new Map<string, string[]>();
+const holderCache = new Map<string, Employee[]>();
+
 export function updateEmployee(id: string, patch: Partial<Employee>) {
-  const employee = EMPLOYEES.find((item) => item.id === id);
+  const employee = employeeById.get(id);
   if (!employee) return false;
   Object.assign(employee, patch);
+  holderCache.clear();
   return true;
 }
 
@@ -349,18 +359,42 @@ export function removeEmployee(id: string) {
   const index = EMPLOYEES.findIndex((item) => item.id === id);
   if (index < 0) return false;
   EMPLOYEES.splice(index, 1);
+  employeeById.delete(id);
+  holderCache.clear();
   return true;
 }
 export const POSITIONS = ROLES;
 
-export const companyById = (id: string | null | undefined) => COMPANIES.find((item) => item.id === id);
-export const departmentById = (id: string | null | undefined) => DEPARTMENTS.find((item) => item.id === id);
-export const governanceById = (id: string | null | undefined) => GOVERNANCE.find((item) => item.id === id);
-export const roleById = (id: string | null | undefined) => ROLES.find((item) => item.id === id);
+export const companyById = (id: string | null | undefined) => id ? companyByIdIndex.get(id) : undefined;
+export const departmentById = (id: string | null | undefined) => id ? departmentByIdIndex.get(id) : undefined;
+export const governanceById = (id: string | null | undefined) => id ? governanceByIdIndex.get(id) : undefined;
+export const roleById = (id: string | null | undefined) => id ? roleByIdIndex.get(id) : undefined;
 export const initials = (name: string) => name.split(" ").slice(0, 2).map((part) => part[0]).join("").toUpperCase();
-export const companyDescendants = (id: string) => { const result = [id]; const visit = (parent: string) => COMPANIES.filter((item) => item.parent === parent).forEach((item) => { result.push(item.id); visit(item.id); }); visit(id); return result; };
-export const departmentDescendants = (id: string) => { const result = [id]; const visit = (parent: string) => DEPARTMENTS.filter((item) => item.parent === parent).forEach((item) => { result.push(item.id); visit(item.id); }); visit(id); return result; };
-export const positionHolders = (id: string) => EMPLOYEES.filter((employee) => employee.role === id || employee.governanceRole === id);
+export const companyDescendants = (id: string) => {
+  const cached = companyDescendantCache.get(id);
+  if (cached) return cached;
+  const result = [id];
+  const visit = (parent: string) => COMPANIES.filter((item) => item.parent === parent).forEach((item) => { result.push(item.id); visit(item.id); });
+  visit(id);
+  companyDescendantCache.set(id, result);
+  return result;
+};
+export const departmentDescendants = (id: string) => {
+  const cached = departmentDescendantCache.get(id);
+  if (cached) return cached;
+  const result = [id];
+  const visit = (parent: string) => DEPARTMENTS.filter((item) => item.parent === parent).forEach((item) => { result.push(item.id); visit(item.id); });
+  visit(id);
+  departmentDescendantCache.set(id, result);
+  return result;
+};
+export const positionHolders = (id: string) => {
+  const cached = holderCache.get(id);
+  if (cached) return cached;
+  const holders = EMPLOYEES.filter((employee) => employee.role === id || employee.governanceRole === id);
+  holderCache.set(id, holders);
+  return holders;
+};
 export const isVacant = (id: string) => positionHolders(id).length === 0;
 
 export const ORG_SUMMARY = {

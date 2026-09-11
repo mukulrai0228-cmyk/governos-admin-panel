@@ -1,4 +1,4 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useRef } from "react";
 import type { ForwardRefExoticComponent, HTMLAttributes, RefAttributes } from "react";
 import containerLogo from "@/assets/governos-container-logo.svg";
@@ -9,12 +9,10 @@ import { ChevronLeftIcon } from "@/components/ui/chevron-left";
 import { ChevronRightIcon } from "@/components/ui/chevron-right";
 import { LayoutGridIcon } from "@/components/ui/layout-grid";
 import { LayersIcon } from "@/components/ui/layers";
-import { LogoutIcon } from "@/components/ui/logout";
 import { UsersIcon } from "@/components/ui/users";
 import { WorkflowIcon } from "@/components/ui/workflow";
 import { XIcon } from "@/components/ui/x";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { clearAuthentication } from "@/lib/auth";
 
 type AnimatedIconHandle = { startAnimation: () => void; stopAnimation: () => void };
 type AnimatedIcon = ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & { size?: number } & RefAttributes<AnimatedIconHandle>>;
@@ -49,7 +47,6 @@ type SidebarProps = {
 };
 
 export function Sidebar({ collapsed, mobileOpen, onCloseMobile, onToggleCollapsed }: SidebarProps) {
-  const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const iconRefs = useRef<Record<string, AnimatedIconHandle | null>>({});
 
@@ -191,18 +188,6 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile, onToggleCollapse
       </nav>
       </TooltipProvider>
 
-      <div className="border-t border-sidebar-border/70 p-3">
-        <div className={cn("flex items-center gap-3 rounded-md border border-sidebar-border/70 bg-sidebar-accent/35 p-2", collapsed && "lg:justify-center lg:border-transparent lg:bg-transparent lg:p-0")}>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary/12 text-xs font-semibold text-primary">FA</div>
-          <div className={cn("min-w-0 flex-1", collapsed && "lg:hidden")}>
-            <div className="truncate text-xs font-semibold">Faisal Al-Otaibi</div>
-            <div className="truncate text-[10px] text-sidebar-foreground/55">Administrator</div>
-          </div>
-          <Button variant="ghost" size="icon" className={cn("h-8 w-8 shrink-0 text-sidebar-foreground/55", collapsed && "lg:hidden")} aria-label="Sign out" onClick={() => { clearAuthentication(); void navigate({ to: "/login" }); }}>
-            <LogoutIcon className="h-3.5 w-3.5" />
-          </Button>
-        </div>
-      </div>
     </aside>
     </>
   );

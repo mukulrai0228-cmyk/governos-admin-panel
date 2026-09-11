@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Building2, Focus, Landmark, Maximize2, Minimize2, Minus, Network, Plus, ShieldAlert, UserRound, Users } from "lucide-react";
 import { TransformComponent, TransformWrapper, type ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
@@ -180,8 +180,8 @@ function VisualMap({ lens, selected, setSelected }: { lens: Lens; selected: stri
   const mapRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const nodes = getVisualNodes(lens);
-  const roots = nodes.filter((node) => node.parent === null);
+  const nodes = useMemo(() => getVisualNodes(lens), [lens]);
+  const roots = useMemo(() => nodes.filter((node) => node.parent === null), [nodes]);
 
   useEffect(() => {
     transformRef.current?.centerView(0.72, 0);
