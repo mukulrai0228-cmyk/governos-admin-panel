@@ -11,10 +11,9 @@ import { jobDescriptionFor } from "@/lib/job-description";
 import { profileImageFor } from "@/lib/profile-images";
 
 const TABS = [
-  { id: "positions", label: "Positions", icon: Briefcase },
-  { id: "reporting", label: "Reporting", icon: GitBranch },
-  { id: "jd", label: "Job description", icon: FileText },
   { id: "details", label: "Details", icon: IdCard },
+  { id: "jd", label: "Job description", icon: FileText },
+  { id: "position-reporting", label: "Position & reporting", icon: GitBranch },
 ] as const;
 type Tab = (typeof TABS)[number]["id"];
 
@@ -63,7 +62,7 @@ function PersonRow({ person, active, caption }: { person: Employee; active?: boo
 }
 
 export function EmployeeDetailPage({ employeeId }: { employeeId: string }) {
-  const [tab, setTab] = useState<Tab>("positions");
+  const [tab, setTab] = useState<Tab>("details");
   const [, refresh] = useState(0);
   const employee = EMPLOYEES.find((item) => item.id === employeeId);
   if (!employee) {
@@ -77,9 +76,6 @@ export function EmployeeDetailPage({ employeeId }: { employeeId: string }) {
   }
 
   const role = roleById(employee.role);
-  const governanceRole = roleById(employee.governanceRole);
-  const manager = EMPLOYEES.find((item) => item.id === employee.manager);
-  const reports = EMPLOYEES.filter((item) => item.manager === employee.id);
   const company = companyById(employee.company);
   const department = departmentById(employee.department);
   const profileImage = profileImageFor(employee);
@@ -137,55 +133,9 @@ export function EmployeeDetailPage({ employeeId }: { employeeId: string }) {
         </div>
 
         <div key={tab} className="governos-tab-content p-6">
-          {tab === "positions" && (
-            <div className="grid gap-3">
-              <p className="mb-1 max-w-2xl text-sm text-muted-foreground">{employee.name.split(" ")[0]} appears in up to three hierarchies at once: the legal employer, the operational position, and any governance position held on top of it.</p>
-              <PositionRow icon={Building2} label="Legal" title={company?.name ?? "Unknown entity"} body={`The entity that employs them. ${company?.kind ?? ""} · ${company?.country ?? ""}. One employee, one entity.`} />
-              <PositionRow
-                icon={Briefcase}
-                label="Operations"
-                to={role ? { roleId: role.id } : undefined}
-                title={role?.name ?? "No operations position assigned"}
-                body={role ? `${department?.name ?? "No department"} · grade ${role.grade}. Decision authority: ${role.authority}.` : "This employee is on the payroll but has no operational position."}
-              />
-              <PositionRow
-                icon={ShieldCheck}
-                label="Governance"
-                to={governanceRole ? { roleId: governanceRole.id } : undefined}
-                title={governanceRole?.name ?? "No governance position"}
-                body={governanceRole ? `Authority: ${governanceRole.authority} · owns ${governanceRole.documents} documents in the approval chain.` : "Most employees have none. Governance seats are held by a small number of people, usually in addition to an operations position."}
-              />
-            </div>
-          )}
-
           {tab === "jd" && <JobDescriptionTab employee={employee} />}
 
-
-
-          {tab === "reporting" && (
-            <div className="grid gap-6">
-              <section>
-                <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Reports to</h2>
-                {manager ? <PersonRow person={manager} /> : <p className="rounded-xl border border-dashed border-border p-5 text-sm text-muted-foreground">Top of the chain — this position reports to nobody.</p>}
-              </section>
-              <section className="relative pl-4">
-                <span className="absolute left-0 top-0 h-full w-0.5 rounded-full bg-foreground/20" />
-                <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">This employee</h2>
-                <PersonRow person={employee} active />
-              </section>
-              <section>
-                <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Direct reports, {reports.length}</h2>
-                {reports.length ? (
-                  <div className="grid gap-2 lg:grid-cols-2">{reports.slice(0, 12).map((person) => <PersonRow key={person.id} person={person} />)}</div>
-                ) : (
-                  <div className="rounded-xl border border-dashed border-border p-6">
-                    <b className="text-sm">No direct reports</b>
-                    <p className="mt-1 text-sm text-muted-foreground">No other position reports into {role?.name ?? "this position"} today.</p>
-                  </div>
-                )}
-              </section>
-            </div>
-          )}
+          {tab === "position-reporting" && <PositionReportingTab employee={employee} />}
 
           {tab === "details" && (
             <dl className="grid gap-x-10 gap-y-0 sm:grid-cols-2">
@@ -261,24 +211,27 @@ function JobDescriptionTab({ employee }: { employee: Employee }) {
     return <p className="rounded-xl border border-dashed border-border p-6 text-sm text-muted-foreground">No operational position is assigned, so there is no job description to show yet.</p>;
   }
   const jd = jobDescriptionFor(role);
-  const department = departmentById(employee.department);
-  const company = companyById(employee.company);
-  const manager = EMPLOYEES.find((item) => item.id === employee.manager);
-  const managerRole = manager ? roleById(manager.role) : undefined;
-  const others = EMPLOYEES.filter((item) => item.role === role.id && item.id !== employee.id).slice(0, 6);
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="rounded-2xl border border-border/70 bg-card p-6">
+    <div className="grid gap-5 lg:grid-cols-2">
+      <div className="rounded-2xl border border-border/70 bg-card p-6 lg:col-span-2">
         <Section title="Job purpose"><p>{jd.purpose}</p></Section>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-card p-6">
         <Section title="Key responsibilities"><Bullets items={jd.responsibilities} /></Section>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-card p-6">
         <Section title="Qualifications & experience"><Bullets items={jd.qualifications} /></Section>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-card p-6">
         <Section title="Competencies">
           <p className="text-[11px] font-semibold uppercase tracking-wider">Core</p>
           <div className="mt-2 flex flex-wrap gap-2">{jd.core.map((item) => <Tag key={item}>{item}</Tag>)}</div>
           <p className="mt-4 text-[11px] font-semibold uppercase tracking-wider">Functional</p>
           <div className="mt-2 flex flex-wrap gap-2">{jd.functional.map((item) => <Tag key={item}>{item}</Tag>)}</div>
         </Section>
+      </div>
+      <div className="rounded-2xl border border-border/70 bg-card p-6">
         <Section title="Job architecture">
           <SideRow label="Job family" value={jd.jobFamily} />
           <SideRow label="Grade / band" value={jd.gradeBand} />
@@ -287,37 +240,48 @@ function JobDescriptionTab({ employee }: { employee: Employee }) {
           <SideRow label="Last reviewed" value={jd.lastReviewed} />
         </Section>
       </div>
+    </div>
+  );
+}
 
-      <aside className="grid content-start gap-5">
-        <div className="rounded-2xl border border-border/70 bg-card p-5">
-          <h2 className="text-base font-semibold tracking-tight">Position details</h2>
-          <div className="mt-2">
-            <SideRow label="Job title" value={role.name} />
-            <SideRow label="Department" value={department?.name ?? "Not assigned"} />
-            <SideRow label="Unit" value={company?.name ?? "—"} />
-            <SideRow label="Location" value={employee.location} />
-            <SideRow label="Reports to" value={manager ? `${manager.name}${managerRole ? ` — ${managerRole.name}` : ""}` : "Top of the chain"} />
-            <SideRow label="Grade" value={jd.gradeBand} />
-            <SideRow label="Employee ID" value={<span className="font-mono text-[13px]">{employee.id}</span>} />
+function PositionReportingTab({ employee }: { employee: Employee }) {
+  const role = roleById(employee.role);
+  const governanceRole = roleById(employee.governanceRole);
+  const manager = EMPLOYEES.find((item) => item.id === employee.manager);
+  const reports = EMPLOYEES.filter((item) => item.manager === employee.id);
+  const company = companyById(employee.company);
+  const department = departmentById(employee.department);
+
+  return (
+    <div className="grid gap-5">
+      <section className="rounded-2xl border border-border/70 bg-card p-6">
+        <h2 className="text-base font-semibold tracking-tight">Position</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{employee.name.split(" ")[0]} appears in the legal, operational and governance hierarchies.</p>
+        <div className="mt-4 grid gap-3">
+          <PositionRow icon={Building2} label="Legal" title={company?.name ?? "Unknown entity"} body={`The entity that employs them. ${company?.kind ?? ""} · ${company?.country ?? ""}. One employee, one entity.`} />
+          <PositionRow icon={Briefcase} label="Operations" to={role ? { roleId: role.id } : undefined} title={role?.name ?? "No operations position assigned"} body={role ? `${department?.name ?? "No department"} · grade ${role.grade}. Decision authority: ${role.authority}.` : "This employee is on the payroll but has no operational position."} />
+          <PositionRow icon={ShieldCheck} label="Governance" to={governanceRole ? { roleId: governanceRole.id } : undefined} title={governanceRole?.name ?? "No governance position"} body={governanceRole ? `Authority: ${governanceRole.authority} · owns ${governanceRole.documents} documents in the approval chain.` : "Most employees have none. Governance seats are held by a small number of people, usually in addition to an operations position."} />
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border/70 bg-card p-6">
+        <h2 className="text-base font-semibold tracking-tight">Reporting</h2>
+        <div className="mt-4 grid gap-5">
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Reports to</h3>
+            {manager ? <PersonRow person={manager} /> : <p className="rounded-xl border border-dashed border-border p-5 text-sm text-muted-foreground">Top of the chain — this position reports to nobody.</p>}
+          </div>
+          <div className="relative pl-4">
+            <span className="absolute left-0 top-0 h-full w-0.5 rounded-full bg-foreground/20" />
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">This employee</h3>
+            <PersonRow person={employee} active />
+          </div>
+          <div>
+            <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Direct reports, {reports.length}</h3>
+            {reports.length ? <div className="grid gap-2 lg:grid-cols-2">{reports.slice(0, 12).map((person) => <PersonRow key={person.id} person={person} />)}</div> : <div className="rounded-xl border border-dashed border-border p-6"><b className="text-sm">No direct reports</b><p className="mt-1 text-sm text-muted-foreground">No other position reports into {role?.name ?? "this position"} today.</p></div>}
           </div>
         </div>
-        <div className="rounded-2xl border border-border/70 bg-card p-5">
-          <h2 className="text-base font-semibold tracking-tight">Others in this role</h2>
-          {others.length ? (
-            <ul className="mt-2 grid gap-1.5">
-              {others.map((person) => (
-                <li key={person.id}>
-                  <Link to="/organization/employees/$employeeId" params={{ employeeId: person.id }} search={{ company: undefined, department: undefined, unplaced: false }} className="text-sm underline-offset-4 hover:text-primary hover:underline">
-                    {person.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mt-2 text-sm text-muted-foreground">Nobody else holds this position today.</p>
-          )}
-        </div>
-      </aside>
+      </section>
     </div>
   );
 }

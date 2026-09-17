@@ -167,7 +167,7 @@ export function Sidebar({ collapsed, mobileOpen, onCloseMobile, onToggleCollapse
                       </div>
                     )}
                     {item.children && collapsed && (
-                      <div className="invisible absolute left-[calc(100%+12px)] top-0 z-50 hidden w-52 translate-x-1 rounded-lg border border-border bg-popover p-2 text-popover-foreground opacity-0 shadow-xl transition-all group-hover/item:visible group-hover/item:translate-x-0 group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:translate-x-0 group-focus-within/item:opacity-100 lg:block">
+                      <div className="governos-float invisible absolute left-[calc(100%+12px)] top-0 z-50 hidden w-52 translate-x-1 rounded-lg border border-border bg-popover p-2 text-popover-foreground opacity-0 shadow-xl transition-all group-hover/item:visible group-hover/item:translate-x-0 group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:translate-x-0 group-focus-within/item:opacity-100 lg:block">
                         <div className="px-2 pb-2 pt-1 text-xs font-semibold">Organization</div>
                         {item.children.map((child) => {
                           const childActive = pathname === child.to || pathname.startsWith(child.to + "/");

@@ -74,7 +74,7 @@ export const BRANDS: Brand[] = [
   { id: "orchid",    name: "Orchid Bloom",   primary: "#C026D3", accent: "#F0ABFC", font: "Inter", tone: "cool", group: "Gradient",
     stops: ["#7C3AED", "#C026D3", "#F0ABFC"] },
   { id: "lagoon",    name: "Tropical Lagoon",primary: "#0D9488", accent: "#5EEAD4", font: "Inter", tone: "cool", group: "Gradient",
-    stops: ["#0369A1", "#0D9488", "#5EEAD4"] },
+    stops: ["#0F766E", "#0D9488", "#5EEAD4"] },
   { id: "meadow",    name: "Meadow",         primary: "#16A34A", accent: "#BEF264", font: "Inter", tone: "cool", group: "Gradient",
     stops: ["#065F46", "#16A34A", "#BEF264"] },
   { id: "deep-ocean",name: "Deep Ocean",     primary: "#0369A1", accent: "#22D3EE", font: "Inter", tone: "cool", group: "Gradient",
@@ -139,7 +139,7 @@ export const BRANDS: Brand[] = [
   { id: "graphite",  name: "Graphite",         primary: "#374151", accent: "#9CA3AF", font: "Inter", tone: "cool", group: "Neutral" },
 ];
 
-export const DEFAULT_BRAND_ID = "twilight";
+export const DEFAULT_BRAND_ID = "lagoon";
 
 
 const WARM_LIGHT = { bg: "#f8f4f0", sidebar: "#f3ede8", card: "#ffffff", muted: "#eee7e1", accent: "#e8ddd4", border: "#d8cec6", fg: "#201b22", mutedFg: "#6f6670" };

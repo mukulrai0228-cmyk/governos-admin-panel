@@ -382,13 +382,22 @@
 
 /* Portaled Radix surfaces sit outside the dashboard shell. */
 .governos-float {
-  position: relative;
+  isolation: isolate;
   overflow: hidden;
-  border-color: oklch(0.95 0.015 265 / 0.19) !important;
-  background: color-mix(in oklab, var(--popover) 64%, transparent) !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(24px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(120%) !important;
+  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent) !important;
+  background: var(--popover) !important;
+  box-shadow: 0 8px 24px color-mix(in oklab, var(--background) 24%, transparent), 0 1px 4px color-mix(in oklab, var(--background) 12%, transparent) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Keep the material layer separate from the popup contents so the latter stays crisp. */
+.governos-float::before {
+  display: none;
+}
+
+.governos-float > * {
+  position: relative;
 }
 
 .governos-dialog {
@@ -400,7 +409,6 @@
   -webkit-backdrop-filter: blur(24px) saturate(120%);
 }
 
-.governos-float::before,
 .governos-dialog::before {
   position: absolute;
   z-index: 0;
@@ -415,7 +423,6 @@
   -webkit-backdrop-filter: blur(24px) saturate(120%);
 }
 
-.governos-float > *,
 .governos-dialog > * {
   position: relative;
   z-index: 1;
@@ -522,7 +529,18 @@ html.dark [data-governos-shell] [data-governos-card] {
 html.dark .governos-float,
 html.dark .governos-dialog {
   color: var(--foreground) !important;
-  box-shadow: none !important;
+}
+
+html.dark .governos-float {
+  border-color: color-mix(in oklab, var(--foreground) 16%, transparent) !important;
+  background: var(--popover) !important;
+  box-shadow: 0 10px 30px oklch(0.04 0.02 265 / 0.36), 0 1px 4px oklch(0.04 0.02 265 / 0.2) !important;
+  backdrop-filter: blur(32px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(145%) !important;
+}
+
+html.dark .governos-float::before {
+  display: none;
 }
 
 html.dark .governos-dialog::before {
@@ -588,13 +606,16 @@ html[data-theme="light"] [data-governos-shell] [role="combobox"] {
 html[data-theme="light"] .governos-float,
 html[data-theme="light"] .governos-dialog {
   border-color: oklch(1 0 0 / 0.38) !important;
-  background: color-mix(in oklab, var(--popover) 68%, transparent) !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  background: var(--popover) !important;
+  box-shadow: 0 8px 24px oklch(0.25 0.03 270 / 0.12), 0 1px 4px oklch(0.25 0.03 270 / 0.06) !important;
+  backdrop-filter: blur(32px) saturate(145%);
+  -webkit-backdrop-filter: blur(32px) saturate(145%);
 }
 
-html[data-theme="light"] .governos-float::before,
+html[data-theme="light"] .governos-float::before {
+  display: none;
+}
+
 html[data-theme="light"] .governos-dialog::before {
   background: linear-gradient(135deg, oklch(1 0 0 / 0.16), oklch(0.96 0.024 270 / 0.08));
 }
@@ -609,14 +630,17 @@ html[data-theme="light"] [data-radix-alert-dialog-overlay] {
 html:not(.dark) .governos-float,
 html:not(.dark) .governos-dialog {
   border-color: oklch(0.42 0.04 265 / 0.2) !important;
-  background: color-mix(in oklab, var(--popover) 68%, transparent) !important;
+  background: var(--popover) !important;
   color: oklch(0.23 0.025 270) !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  box-shadow: 0 8px 24px oklch(0.25 0.03 270 / 0.12), 0 1px 4px oklch(0.25 0.03 270 / 0.06) !important;
+  backdrop-filter: blur(32px) saturate(145%);
+  -webkit-backdrop-filter: blur(32px) saturate(145%);
 }
 
-html:not(.dark) .governos-float::before,
+html:not(.dark) .governos-float::before {
+  display: none;
+}
+
 html:not(.dark) .governos-dialog::before {
   background: linear-gradient(135deg, oklch(1 0 0 / 0.2), oklch(0.86 0.03 270 / 0.08));
 }

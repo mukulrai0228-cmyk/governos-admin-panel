@@ -8,7 +8,7 @@ import { SearchIcon } from "@/components/ui/search";
 import { SettingsIcon } from "@/components/ui/settings";
 import { UserIcon } from "@/components/ui/user";
 import { BellOff, ChevronDown } from "lucide-react";
-import { AppearanceMenu } from "./appearance-menu";
+import { ThemeToggle } from "./theme-toggle";
 import { clearAuthentication } from "@/lib/auth";
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -46,7 +46,7 @@ export function Topbar({ onOpenMenu }: { onOpenMenu: () => void }) {
 
         <div className="flex-1" />
 
-        <AppearanceMenu />
+        <ThemeToggle />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
